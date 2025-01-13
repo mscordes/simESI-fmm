@@ -23,10 +23,9 @@ simESI-fmm has been extensively tested on linux and to a lesser extent windows. 
 
 ### Dependencies
 * GROMACS, tested on GROMACS 2022.3, but should work on any fairly recent version
- * Optionally, if using GROMACS with FMM see https://grubmueller.pages.mpcdf.de/docs-gromacs-fmm-constantph/docs/install_guide/
-* C++ compiler
- * For linux/mac, GNU (gcc/libstdc++) 11.3+
- * For windows, MSVC(2022)
+ ** Optionally, if using GROMACS with FMM see https://grubmueller.pages.mpcdf.de/docs-gromacs-fmm-constantph/docs/install_guide/
+* For linux/mac, GNU (gcc/libstdc++) 11.3+
+* For windows, MSVC(2022)
 * cmake (version 3.20+)
 
 ### Installation
