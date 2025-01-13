@@ -1,0 +1,67 @@
+; simESI Production Run MD Parameters File
+; This file is optimized for simulating electrosprayed droplets under
+; ambient conditions. 
+;
+; When noted, select parameters were adopted from  Hanifi, Scrosati & Konermann, J. Phys. Chem. B (2024) 
+; If using please cite Hanifi et al. as well as..
+;   Cordes, M. S.; Gallagher, E. S. Molecular Dynamics Simulations of Native Protein Ion Formation from Electrosprayed 
+;   Droplets with Experimentally Relevant Compo-sition. Manuscript pending review.
+
+; General 
+dt                      = 0.002     ; 0.002 fs timstep
+nsteps                  = 2000      ; 0.002 fs * 2000 steps = 4 ps
+integrator              = md
+comm_grps               = Protein   ; This variable is actively modified during a simESI run to seperate droplet/atmosphere.
+comm_mode               = Angular   ; Remove linear/rotational motion. Atmosphere will induce rotation!  
+constraint_algorithm    = lincs     ; LINCS constraint algo
+constraints             = h-bonds   ; Only constrain H-bonds
+lincs_iter              = 1
+lincs_order             = 4
+nstenergy               = 0         ; Supress output to save on memory. If you want to use analysis files
+nstlog                  = 0         ; modify vars, then set --save to "yes".
+nstvout                 = 0
+nstxout                 = 0
+nstxout_compressed      = 100       ; Trajectory saved every 10 steps by default.
+
+; FMM 
+pbc                      = xyz
+periodic-molecules       = no
+cutoffscheme             = Verlet
+verlet-buffer-tolerance  = -1
+rlist                    = 3.0
+nstlist                  = 50
+coulombtype              = FMM
+coulomb-modifier         = none
+rcoulomb-switch          = 0
+rcoulomb                 = 2.0
+epsilon-r                = 1
+epsilon-rf               = 0
+vdw-type                 = Cut-off
+vdw-modifier             = Potential-shift-Verlet
+rvdw-switch              = 0
+rvdw                     = 2.0
+DispCorr                 = No
+table-extension          = 1
+fourierspacing           = 0.24
+fourier-nx               = 0
+fourier-ny               = 0
+fourier-nz               = 0
+pme-order                = 4
+ewald-rtol               = 1e-05
+ewald-rtol-lj            = 0.001
+lj-pme-comb-rule         = Geometric
+ewald-geometry           = 3d
+epsilon-surface          = 0
+implicit-solvent         = no
+fmm-override-multipole-order = 8        ; For most cases: PME-equivalent accuracy
+fmm-override-tree-depth      =          ; Dynamically set depending on system size
+
+; T-coupling
+gen_vel                 = no        ; simESI maintains velocities between stitches.
+continuation            = yes       ; simESI maintains velocities between stitches.
+pcoupl                  = no        ; Use NVT ensemble.
+tcoupl                  = nose-hoover
+tc_grps                 = Protein   ; This variable is actively modified during a simESI run to seperately couple protein/solvent/atmosphere.
+ref_t                   = 370       ; Also actively modified. Droplet components set to user defined temp, gas held at constant 300 K.
+tau_t                   = 5         ; Also actively modified with values adopted from Hanifi et al.  
+nsttcouple              = 100       ; Temperature coupling frequency, adopted from Hanifi et al.  
