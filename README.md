@@ -31,10 +31,10 @@ simESI-fmm has been extensively tested on linux and to a lesser extent windows. 
 ### Installation
 After downloading, navigate to the ```simESI-fmm``` parent directory and run the following commands as simESI-fmm must be compiled prior to running.
 
-```mkdir bin``` 
-```cd bin``` 
-```cmake -DCMAKE_BUILD_TYPE=Release ..``` 
-```cmake --build . --config Release``` 
+```mkdir bin``` <br />
+```cd bin``` <br />
+```cmake -DCMAKE_BUILD_TYPE=Release ..``` <br />
+```cmake --build . --config Release``` <br />
 
 If compilation is successfull, this should create a ```simESI-fmm``` executable in the ```simESI-fmm``` parent directory.
 
