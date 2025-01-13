@@ -2,12 +2,12 @@
 # simESI
 simESI-fmm (simulations of ESI with FMM) is a high performance version of the original "simESI" (https://github.com/mscordes/simESI). As with the original simESI release, simESI-fmm is a program utilizing GROMACS for simulating electrospray ionization (ESI) of proteins in ammonium acetate containing droplets to form protonated or deprotonated protein ions. simESI-fmm enables this by allowing proton transfer reactions between discrete amino acids, water, Grotthuss diffuse H₃O⁺ and OH⁻, ammonium (NH₄⁺), ammonia (NH₃), acetate (CH₃COO⁻), and acetic acid (CH₃COOH). Additional models are included to enable modelling of ambient conditions. simESI-fmm handles the simulation from end-to-end including preprocessing of inputted protein coordinate file, droplet formation & equilibriation, and running of the simulation. The simulation can be readily modified in many ways from command line (see below). 
 
-# Changes from the original simESI distribution
+## Changes from the original simESI distribution
 simESI-fmm was designed from the ground up to enable simulation at scale, i.e., larger droplets, larger proteins, and much better handling of protein complexes. Relative to simESI, the numerical calculations surrounding proton transfer are much quicker. This is due to being entirely written in C++, more efficient clustering, and changes to droplet formation that can reduce the number of simulated waters. With most systems, proton transfer calculations will typically occupy a negligible contribution to total compute time (<5%). 
 
 Additionally, simESI-fmm optionally supports the use of the fast multipole method (FMM) for calculation of non-bonded forces as the name suggests (if using FMM, please use the FMM citation below), which can significantly speed up the MD portion of the simulation given that droplets have net charge (and therefore cannot use PME). 
 
-# Citations
+## Citations
 Installation is quite simple as everything is written in python so as long as you have the correct dependencies, and your protein ```.pdb``` file is properly formatted, simESI should work out of the box.
 
 If using simESI, please cite the following paper(s).
@@ -18,10 +18,10 @@ Cordes, M. S.; Gallagher, E. S. Molecular Dynamics Simulations of Native Protein
 
 Kohnke, B. Kutzner; C. & Grubmüller, H. J. Chem. Theory Comput. 16, 6938-6949 (2020)
 
-# Installation and Running
+## Installation and Running
 simESI-fmm has been extensively tested on linux and to a lesser extent windows. simESI-fmm only uses the C++20 standard library, no external dependencies! simESI-fmm is untested on mac, but may work given linux support.
 
-## Dependencies
+### Dependencies
 * GROMACS, tested on GROMACS 2022.3, but should work on any fairly recent version
  * Optionally, if using GROMACS with FMM see https://grubmueller.pages.mpcdf.de/docs-gromacs-fmm-constantph/docs/install_guide/
 * C++ compiler
@@ -29,7 +29,7 @@ simESI-fmm has been extensively tested on linux and to a lesser extent windows. 
  * For windows, MSVC(2022)
 * cmake (version 3.20+)
 
-## Installation
+### Installation
 After downloading, navigate to the ```simESI-fmm``` parent directory and run the following commands as simESI-fmm must be compiled prior to running.
 
 ```mkdir bin```
@@ -39,7 +39,7 @@ After downloading, navigate to the ```simESI-fmm``` parent directory and run the
 
 If compilation is successfull, this should create a ```simESI-fmm``` executable in the ```simESI-fmm``` parent directory.
 
-## Running simESI
+### Running simESI
 simESI-fmm is a command line program. To run simESI-fmm with the default example, simply navigate to the ```simESI-fmm``` parent directory and call ```./simESI-fmm -pdb ubq.pdb```. This will start a droplet simulation with the default protein structure, ubiquitin (PDB: 1UBQ). simESI-fmm is designed to take an input ```.pdb``` file of the protein (must be ```.pdb```!) from the ```simESI-fmm/coordinateFiles``` subdirectory. 
 
 This will create an output directory ```simESI-fmm/outputFiles``` if ```simESI-fmm/outputFiles``` does not exist. simESI-fmm then creates a numbered subdirectory using the name of the inputted ```.pdb``` in ```simESI-fmm/outputFiles```, for example ```simESI-fmm/outputFiles/ubq_1``` if using the default ```ubq.pdb``` structure. If you were to run ```./simESI-fmm -pdb ubq.pdb``` again, the new output directory would be ```simESI-fmm/outputFiles/ubq_2``` with each additional run counting up. Within each output dir (i.e. ```simESI-fmm/outputFiles/ubq_1```) there are two subdirectories, ```data``` and ```simulation```. ```data``` contains ```.txt``` files with all the high level information to expedite data analysis including information like protein charge, system charge, number of each molecule, and execution times at each timestep. ```simulation``` contains all the files from the simulation itself, namely coordinate files from each timestep, as well as files assocaiated with droplet creation/equilibriation. 
