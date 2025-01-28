@@ -37,8 +37,8 @@ namespace Core {
 			// Only 26 letters in alphabet so max 26 chains, this should be fixed later
             int chainNum = std::stoi(pair.first);
 			std::cout << "Chain number: " << chainNum << std::endl; 
-			if (chainNum > 26) {
-				std::cerr << "ERROR: More than 26 chains detected. PROPKA3 (maybe?) only supports 26 chains." << std::endl;
+			if (chainNum > 28) {
+				std::cerr << "ERROR: More than 26 chains detected. PROPKA3 (maybe?) only supports 28 chains." << std::endl;
 				exit(1);
 			}
             std::string chain(1, static_cast<char>(chainNum - 1) + 'A');

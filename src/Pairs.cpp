@@ -39,9 +39,13 @@ namespace Core {
 	}
 
 	// Computes energy of exchange considering degree of solvation
-	static float computeEnergy(const TitratableAtom& donor, const TitratableAtom& acceptor, const float& temperature, 
-		const int& nearWaters) {
+	static float computeEnergy(const TitratableAtom& donor, const TitratableAtom& acceptor, const float& temperature, int& nearWaters) {
 		float energy;
+
+		// Don't count reactant waters in the nearWaters
+		if (donor.atom->res_name == "SOL" || acceptor.atom->res_name == "SOL") {
+			nearWaters--;
+		}
 
 		// If waters > 30, use pKa only
 		if (nearWaters > 30) {

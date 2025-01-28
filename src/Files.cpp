@@ -55,6 +55,11 @@ namespace Core {
     }
 
     void copyFile(const std::filesystem::path& ifname, const std::filesystem::path& ofname) {
+        if (!std::filesystem::exists(ifname)) {
+            std::cerr << "ERROR: File for copying does not exist." << std::endl;
+			std::cerr << "File: " << ifname << std::endl;
+            std::exit(1);
+        }
         std::filesystem::copy_file(ifname, ofname, std::filesystem::copy_options::overwrite_existing);
     }
 
