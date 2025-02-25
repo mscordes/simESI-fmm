@@ -15,11 +15,17 @@ namespace Core {
         std::string esi_mode = "pos";
 		std::string atm = "yes";
         float amace_conc = 0.25f;
+        float water_vapor = 0.00f;
+        float ace_vapor = 0.00f;
+        float ach_vapor = 0.00f;
+        float nh4_vapor = 0.00f;
+        float nh3_vapor = 0.00f;
         float droplet_size = 1.1f;
         float box_size = 75.0f;
         float time = 25.0f;
         float init_temp = 370.0f;
         float final_temp = 450.0f;
+        float gas_temp = 300.0f;
 		int water_cutoff = -1;
         std::string pka_pdb = "no";
         std::string dir_cont = "no";
@@ -35,7 +41,7 @@ namespace Core {
     struct Atom {
     public:
         // Attributes
-		std::weak_ptr<Residue> parent;    // Pointer to parent Residue object
+		std::weak_ptr<Residue> parent;      // Pointer to parent Residue object
         std::string res_id;                 // Residue number + residue name
         int res_num;                        // Residue number
         std::string res_name;               // Residue name

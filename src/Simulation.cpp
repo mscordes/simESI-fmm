@@ -200,13 +200,18 @@ namespace Core {
 
 			// Remove evaporated atoms
 			std::vector<std::array<float, 3>> proteinCarbons;
-			bool evap = removeEvaporated(coordInfo, topOrder, newTop, proteinCarbons);
+			std::unordered_map<std::string, int> vaporDict;
+			bool evap = removeEvaporated(config, coordInfo, topOrder, newTop, proteinCarbons, vaporDict);
 
 			// Recenter droplet to prevent interactions with PBCs
 			bool recentered = recenterDroplet(coordInfo, proteinCarbons);
 
 			// Gas velocities can become distorted due to stitching, correct here
+			coordInfo.residues = binAtoms(coordInfo.atoms);
+			coordInfo.residueMap = getResidueMap(coordInfo.residues);
 			bool gasCorrect = correctGasVelocities(coordInfo.atoms, temperature);
+			fixAmmoniaGas(config, coordInfo, gasCorrect); // Fix instability bug with gaseous ammonia
+			fixAceticGas(config, coordInfo, gasCorrect); // Fix instability bug with gaseous acetic acid
 
 			endStepTime = timer();
 
@@ -217,8 +222,7 @@ namespace Core {
 				writeGRO(newGro, coordInfo.atoms, coordInfo.box_vectors);
 
 				// Prep .ndx and .mdp files for MD, tc-grps will break unless the specified residue name is present
-				modifyNDXGrps(std::to_string(step) + "_preMD", coordInfo.numResidues, config);
-				modifyMDPGrps("prodrun", coordInfo.numResidues, config.init_temp, coordInfo.atoms);
+				modifyMDPgrps(std::to_string(step) + "_preMD", "prodrun", config, topOrder, coordInfo, temperature);
 
 				// Run MD
 				{
@@ -314,6 +318,13 @@ namespace Core {
 			for (const auto& resType : topOrder) {
 				if (coordInfo.numResidues.find(resType) != coordInfo.numResidues.end()) {
 					write_output(dataPath, std::to_string(coordInfo.numResidues.at(resType)), resType + ".txt");
+				}
+			}
+
+			// Write how much each gas phase solute present
+			for (const auto& [resType, num] : vaporDict) {
+				if (resType != "NNN" && resType != "OOO") {
+					write_output(dataPath, std::to_string(num), "vapor_" + resType + ".txt");
 				}
 			}
 

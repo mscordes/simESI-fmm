@@ -82,7 +82,7 @@ namespace Core {
             		auto it = pkaVals.find(residue->res_num);
                     if (it != pkaVals.end()) {
                         float pka = it->second;
-						// FIX - what should the initial pH be?
+						// TODO - what should the initial pH be?
                         float prob = protProbability(pka, 7.0f);
                         int protState = randomChoice(prob);
 

@@ -183,7 +183,8 @@ namespace Core {
                 };
 
                 // Velocity check
-				if (velocity[0] > 10.0f || velocity[1] > 10.0f || velocity[2] > 10.0f) {
+				if (velocity[0] > 10.0f || velocity[1] > 10.0f || velocity[2] > 10.0f ||
+                    velocity[0] < -10.0f || velocity[1] < -10.0f || velocity[2] < -10.0f) {
                     if (element != "M") {
                         velocity = sampleMaxwell(1, 300.0f, element)[0];
                     }

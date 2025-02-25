@@ -83,8 +83,7 @@ namespace Core {
         }
 
         // Modify tc-grps and comm-grps in nvt.mdp
-        modifyNDXGrps("droplet", coordInfo.numResidues, config);
-        modifyMDPGrps("nvt", coordInfo.numResidues, config.init_temp, coordInfo.atoms);
+        modifyMDPgrps("droplet", "nvt", config, topOrder, coordInfo, config.init_temp);
 
         // NVT equilibriation
         {

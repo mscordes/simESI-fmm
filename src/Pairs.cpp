@@ -339,7 +339,7 @@ namespace Core {
 			// Find carbon atom in carboxylate group and compute angle
 			for (const auto& weak_atom : exchanges[i].acceptor->parent.lock()->atoms) {
 				auto atom = weak_atom.lock();
-				// FIX - What should 180* bug cutoff be if anything?
+				// TODO - What should 180* bug cutoff be if anything?
 				if (atom->atom_name == carbonName) {
 					if (std::abs(getAngle(atom->coord, exchanges[i].acceptor->coord, exchanges[i].donor->coord)) < 3.0f) {
 						pairsToDelete.insert(i);

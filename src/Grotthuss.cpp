@@ -9,7 +9,6 @@ namespace Core {
 		DOI: 10.1021/acs.jctc.2c00001 */
 
 	// Potential of single reference point, total Grotthuss energy is delta E = E(donor) - E(acceptor)
-	// FIX - this needs to be checked for correspondence
 	static float couloumbEnergy(const CoordInfo& coordInfo, const std::vector<float>& charges, const TitratableAtom& refAtom, 
 		const TitratableAtom& altAtom, const float& charge) {
 

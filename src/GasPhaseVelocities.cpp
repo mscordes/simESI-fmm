@@ -149,11 +149,11 @@ namespace Core {
 			if (ks_stat > 0.2) {
 				corrected = true;
 
-				// Generate new velocities from the Maxwell-Boltzmann distribution
+				// Generate new velocities from the Maxwell-Boltzmann distribution for N2 and O2
 				std::string element = gasType.substr(0, 1);
 				std::vector<std::array<float, 3>> expectedVelocities = sampleMaxwell(actualSpeeds.size(), temperature, element);
 				
-				// Set the new velocities
+				// Set the new O2 and N2 velocities
 				int count = 0;
 				for (std::vector<std::shared_ptr<Atom>>::reverse_iterator riter = atoms.rbegin(); riter != atoms.rend(); ++riter) {
 					if (std::find(gasTypes.begin(), gasTypes.end(), (*riter)->res_name) != gasTypes.end()) {
@@ -174,6 +174,138 @@ namespace Core {
 		}
 
 		return corrected;
+	}
+	
+	// Ammonia molecules don't play nice in the gas phase so force them to behave
+	void fixAmmoniaGas(const Config& config, CoordInfo& coordInfo, bool& gasCorrect) {
+		if (coordInfo.residueMap["NXX"].empty() || config.nh3_vapor < 0.0001) {
+			return;
+		}
+
+		std::vector<std::shared_ptr<Atom>> refAtoms = readGROatoms("nh3.gro");
+		std::vector<std::array<float, 3>> refCoords = extractCoordinates(refAtoms);
+
+		// Parse angle of ammonia H-H-H to see if distorted, correct if bad
+		for (auto& residue : coordInfo.residueMap["NXX"]) {
+
+			// Check that residue is gas phase, if not skip
+			bool inGas = true;
+			std::array<float, 3> loc = residue->atoms[0].lock()->coord;
+			for (const auto& coord : coordInfo.waterOCoords) {
+				const float dx = loc[0] - coord[0];
+				const float dy = loc[1] - coord[1];
+				const float dz = loc[2] - coord[2];
+				const float distanceSquared = dx * dx + dy * dy + dz * dz;
+
+				if (distanceSquared < 0.25) {
+					inGas = false;
+					break;
+				}
+			}
+			if (inGas) {
+				for (const auto& coord : coordInfo.proteinCoords) {
+					const float dx = loc[0] - coord[0];
+					const float dy = loc[1] - coord[1];
+					const float dz = loc[2] - coord[2];
+					const float distanceSquared = dx * dx + dy * dy + dz * dz;
+
+					if (distanceSquared < 0.25) {
+						inGas = false;
+						break;
+					}
+				}
+			}
+			if (!inGas) {
+				continue;
+			}
+
+			// Check angle and reset molecule if necessary
+			float angle = getAngle(residue->atoms[1].lock()->coord, residue->atoms[2].lock()->coord, residue->atoms[3].lock()->coord);
+			if (angle > 125.0f || angle < 93.0) {
+				gasCorrect = true;
+				for (int i = 0; i < 4; i++) {
+					for (int j = 0; j < 3; j++) {
+						residue->atoms[i].lock()->coord[j] = refCoords[i][j] + loc[j];
+					}
+					std::string element = residue->atoms[i].lock()->element;
+					if (element == "H") {
+						residue->atoms[i].lock()->velocity = sampleMaxwell(1, config.gas_temp, element)[0];
+					}
+				}
+			}
+		}
+	}
+
+	// Acetic acid molecules don't play nice in the gas phase so force them to behave
+	void fixAceticGas(const Config& config, CoordInfo& coordInfo, bool& gasCorrect) {
+		if (coordInfo.residueMap["AHX"].empty() || config.ach_vapor < 0.0001) {
+			return;
+		}
+
+		std::vector<std::shared_ptr<Atom>> refAtoms = readGROatoms("aceh.gro");
+		std::vector<std::array<float, 3>> refCoords = extractCoordinates(refAtoms);
+
+		// Parse velocities as these become high as ach begins to shake itself apart
+		for (auto& residue : coordInfo.residueMap["AHX"]) {
+
+			// Check that residue is gas phase, if not skip
+			bool inGas = true;
+			std::array<float, 3> loc = residue->atoms[0].lock()->coord;
+			for (const auto& coord : coordInfo.waterOCoords) {
+				const float dx = loc[0] - coord[0];
+				const float dy = loc[1] - coord[1];
+				const float dz = loc[2] - coord[2];
+				const float distanceSquared = dx * dx + dy * dy + dz * dz;
+
+				if (distanceSquared < 0.25) {
+					inGas = false;
+					break;
+				}
+			}
+			if (inGas) {
+				for (const auto& coord : coordInfo.proteinCoords) {
+					const float dx = loc[0] - coord[0];
+					const float dy = loc[1] - coord[1];
+					const float dz = loc[2] - coord[2];
+					const float distanceSquared = dx * dx + dy * dy + dz * dz;
+
+					if (distanceSquared < 0.25) {
+						inGas = false;
+						break;
+					}
+				}
+			}
+			if (!inGas) {
+				continue;
+			}
+
+			// Check vels
+			bool correct = false;
+			bool exit_loops = false;
+			for (const auto& weak_atom : residue->atoms) {
+				auto atom = weak_atom.lock();
+				for (int i = 0; i < 3; i++) {
+					if (std::abs(atom->velocity[i]) > 7.0f) {
+						correct = true;
+						exit_loops = true;
+						break;
+					}
+				}
+				if (exit_loops) break;
+			}
+
+			// Reset molecule if necessary
+			if (correct) {
+				gasCorrect = true;
+				for (int i = 0; i < refCoords.size(); i++) {
+					for (int j = 0; j < 3; j++) {
+						residue->atoms[i].lock()->coord[j] = refCoords[i][j] + loc[j];
+					}
+					std::string element = residue->atoms[i].lock()->element;
+					residue->atoms[i].lock()->velocity = sampleMaxwell(1, config.gas_temp, element)[0];
+				}
+			}
+		}
 	}
 
 }

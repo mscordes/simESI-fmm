@@ -14,11 +14,17 @@ namespace Core {
             << "  -esi_mode <pos|neg>    Positive ('pos') or negative ('neg') ion mode. Default: 'pos'.\n"
 			<< "  -atm <yes|no>          Simulate with or without atmosphere. Default of \"yes\".\n"
             << "  -amace_conc <float>    Initial ammonium acetate concentration. Default: 0.25.\n"
+            << "  -water_vapor <float>   Percent mass of water vapor to seed in atmosphere. Default: 0 (dry atmosphere).\n"
+            << "  -ach_vapor <float>     Percent mass of acetic acid vapor to seed in atmosphere. Default: 0.\n"
+            << "  -nh3_vapor <float>     Percent mass of ammonia vapor to seed in atmosphere. Default: 0.\n"
+            << "  -ace_vapor <float>     (EXPERIMENTAL) Percent mass of acetate vapor to seed in atmosphere. Default: 0.\n"
+            << "  -nh4_vapor <float>     (EXPERIMENTAL) Percent mass of ammonium vapor to seed in atmosphere. Default: 0.\n"
             << "  -droplet_size <float>  How much water to seed around protein in nm, default of 1.5 nm.\n"
             << "  -box_size <float>      Simulation box size, ie, how much atmosphere. Default of 100 nm (^3).\n"
             << "  -time <float>          Simulation cutoff time in ns. Default: 25.\n"
             << "  -init_temp <float>     Initial droplet temperature in K. Default: 370.\n"
             << "  -final_temp <float>    Final droplet temperature to completely desovlate. Default: 450.\n"
+            << "  -gas_temp <float>      Temperature of the surrounding atmosphere in K. Default: 300.\n"
             << "  -water_cutoff <int>    Remaining number of waters to ramp temperature." << 
                                             "Default calculated based on protein mass\n"
             << "  -pka_pdb <string>      Alternative .pdb for PROPKA pka value determination.\n"
@@ -80,12 +86,18 @@ namespace Core {
             if (arg.first == "-pdb") config.pdb = args["-pdb"];
             else if (arg.first == "-esi_mode") config.esi_mode = args["-esi_mode"];
             else if (arg.first == "-atm") config.atm = args["-atm"];
-            else if (arg.first == "-amace_conc") config.amace_conc = std::stof(args["-amace_conc"]);
+			else if (arg.first == "-amace_conc") config.amace_conc = std::stof(args["-amace_conc"]);
+			else if (arg.first == "-water_vapor") config.water_vapor = std::stof(args["-water_vapor"]);
+            else if (arg.first == "-ace_vapor") config.ace_vapor = std::stof(args["-ace_vapor"]);
+            else if (arg.first == "-ach_vapor") config.ach_vapor = std::stof(args["-ach_vapor"]);
+            else if (arg.first == "-nh4_vapor") config.nh4_vapor = std::stof(args["-nh4_vapor"]);
+            else if (arg.first == "-nh3_vapor") config.nh3_vapor = std::stof(args["-nh3_vapor"]);
             else if (arg.first == "-droplet_size") config.droplet_size = std::stof(args["-droplet_size"]);
             else if (arg.first == "-box_size") config.droplet_size = std::stof(args["-box_size"]);
             else if (arg.first == "-time") config.time = std::stof(args["-time"]);
             else if (arg.first == "-init_temp") config.init_temp = std::stof(args["-init_temp"]);
             else if (arg.first == "-final_temp") config.final_temp = std::stof(args["-final_temp"]);
+            else if (arg.first == "-gas_temp") config.gas_temp = std::stof(args["-gas_temp"]);
             else if (arg.first == "-water_cutoff") config.water_cutoff = std::stoi(args["-water_cutoff"]);
             else if (arg.first == "-pka_pdb") config.pka_pdb = args["-pka_pdb"];
             else if (arg.first == "-dir_cont") config.dir_cont = args["-dir_cont"];
@@ -110,6 +122,7 @@ namespace Core {
         std::cout << "Time cutoff: " << config.time << " ns" << std::endl;
         std::cout << "Initial temperature: " << config.init_temp << " K" << std::endl;
         std::cout << "Final temperature: " << config.final_temp << " K" << std::endl;
+        std::cout << "Gas temperature: " << config.gas_temp << " K" << std::endl;
 		std::cout << "gmx executable: " << config.gmx_env << std::endl;
 		std::cout << "GPU acceleration: " << config.gpu << std::endl;
 		std::cout << "HPC mode: " << config.hpc << std::endl;

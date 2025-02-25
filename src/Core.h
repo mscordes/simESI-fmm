@@ -94,12 +94,13 @@ namespace Core {
 
     void renameCheckpointFile(const std::string& ftype, const int& step, const int& num_restarts);
 
+    std::vector<std::shared_ptr<Atom>> seedAtmosphere(const Config& config, std::vector<std::shared_ptr<Atom>>& atoms,
+        std::vector<std::array<float, 3>>& coords, const std::array<float, 3>& boxVectors, const float& dropletRadius);
+
     CoordInfo formDroplet(const Config& config, CoordInfo& coordInfo, const std::vector<std::string>& topOrder);
 
-    void modifyNDXGrps(const std::string& fname, const std::unordered_map<std::string, int>& numResidues, const Config& config);
-
-    void modifyMDPGrps(const std::string& fname, const std::unordered_map<std::string, int>& numResidues, const float& temperature,
-        const std::vector<std::shared_ptr<Atom>> atoms);
+    void modifyMDPgrps(const std::string& ndx_fname, const std::string& mdp_fname, const Config& config,
+        const std::vector<std::string>& topOrder, CoordInfo& coordInfo, const float& temperature);
 
     void topFromCoord(const std::string& groFname, const std::string& topFname, const float& boxSize, const Config& config, 
         const std::vector<std::string>& topOrder);
@@ -131,8 +132,8 @@ namespace Core {
     std::vector<std::vector<float>> cdist(const std::vector<std::array<float, 3>>& coords1,
         const std::vector<std::array<float, 3>>& coords2);
 
-    bool removeEvaporated(CoordInfo& coordInfo, const std::vector<std::string>& topOrder, const std::string& top_fname,
-        std::vector<std::array<float, 3>>& proteinCoords);
+    bool removeEvaporated(const Config& config, CoordInfo& coordInfo, const std::vector<std::string>& topOrder,
+        const std::string& top_fname, std::vector<std::array<float, 3>>& proteinCarbons, std::unordered_map<std::string, int>& vaporDict);
 
     std::vector<int> computeClusters(const std::vector<std::array<float, 3>>& points);
     
@@ -190,12 +191,19 @@ namespace Core {
 
     void deleteAtoms(std::vector<std::shared_ptr<Atom>>& atoms, const std::vector<int>& indicesToDelete);
 
+    std::vector<int> isGasPhase(const CoordInfo& coordInfo, const std::vector<std::array<float, 3>>& proteinCarbons,
+        const std::string resType);
+
     void doExchanges(CoordInfo& coordInfo, const std::vector<Exchange>& exchanges, const bool& pairs, const bool& prot,
         const std::vector<std::string>& topOrder, const Config& config);
 
     bool recenterDroplet(CoordInfo& coordInfo, const std::vector<std::array<float, 3>>& proteinCoords);
 
     bool correctGasVelocities(std::vector<std::shared_ptr<Atom>>& atoms, float temperature);
+
+    void fixAmmoniaGas(const Config& config, CoordInfo& coordInfo, bool& gasCorrect);
+
+    void fixAceticGas(const Config& config, CoordInfo& coordInfo, bool& gasCorrect);
 
     void simulation(const Config& config, const std::filesystem::path& trialPath);
 }

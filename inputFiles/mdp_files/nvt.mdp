@@ -28,9 +28,9 @@ nstxout_compressed      = 100
 pbc                     = xyz
 cutoffscheme            = Verlet
 nstlist                 = 40
-rlist                   = 15        ; Smaller 15 nm value enabled by simESI recentering.
-rcoulomb                = 15        ; Smaller 15 nm value enabled by simESI recentering.
-rvdw                    = 15        ; Smaller 15 nm value enabled by simESI recentering.
+rlist                   = 15        ; Smaller value enabled by simESI recentering, dynamically set based on box size.
+rcoulomb                = 15        ; Smaller value enabled by simESI recentering, dynamically set based on box size.
+rvdw                    = 15        ; Smaller value enabled by simESI recentering, dynamically set based on box size.
 coulombtype             = cut-off
 vdwtype                 = cut-off
 

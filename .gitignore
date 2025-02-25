@@ -1,4 +1,5 @@
 coordinateFiles/
 outputFiles/
 bin/
+build/
 *.exe
