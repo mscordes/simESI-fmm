@@ -13,9 +13,7 @@ Installation is quite simple as everything is written in python so as long as yo
 
 If using simESI, please cite the following paper(s).
 
-TODO - insert whatever manuscript this work eventually yields.
-
-Cordes, M. S.; Gallagher, E. S. Molecular Dynamics Simulations of Native Protein Ion Formation from Electrosprayed Droplets of Experimentally Relevant Compositions. Manuscript pending review.
+Cordes, M.S.; Gallagher, E.S. Molecular Dynamics Simulations of Native Protein Charging in Electrosprayed Droplets with Experimentally Relevant Compositions. 2025. Manuscript under review. doi: https://doi.org/10.26434/chemrxiv-2024-smnj3
 
 Kohnke, B. Kutzner; C. & Grubmüller, H. J. Chem. Theory Comput. 16, 6938-6949 (2020)
 
