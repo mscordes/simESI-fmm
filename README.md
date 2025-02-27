@@ -9,8 +9,6 @@ simESI-fmm was designed from the ground up to enable simulation at scale, i.e., 
 Additionally, simESI-fmm optionally supports the use of the fast multipole method (FMM) for calculation of non-bonded forces as the name suggests (if using FMM, please use the FMM citation below), which can significantly speed up the MD portion of the simulation given that droplets have net charge (and therefore cannot use PME). 
 
 ## Citations
-Installation is quite simple as everything is written in python so as long as you have the correct dependencies, and your protein ```.pdb``` file is properly formatted, simESI should work out of the box.
-
 If using simESI, please cite the following paper(s).
 
 Cordes, M.S.; Gallagher, E.S. Molecular Dynamics Simulations of Native Protein Charging in Electrosprayed Droplets with Experimentally Relevant Compositions. 2025. Manuscript under review. doi: https://doi.org/10.26434/chemrxiv-2024-smnj3
