@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.20)
 
 project(
     simESI-fmm
-    VERSION 0.1
+    VERSION 2.0
     LANGUAGES CXX
     HOMEPAGE_URL "https://github.com/mscordes/simESI-fmm"
 )
