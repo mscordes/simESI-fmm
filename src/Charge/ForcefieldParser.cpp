@@ -139,6 +139,8 @@ static void parseTDB(
                 }
                 else if (atomName == "H")
                     chargeMap[currentResidue]["HT2"] = charge;
+                else 
+                    chargeMap[currentResidue][atomName] = charge;
             }
             else {
                 chargeMap[currentResidue][atomName] = charge;

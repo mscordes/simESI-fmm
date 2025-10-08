@@ -1,5 +1,5 @@
 ![Cover Image](/assets/cover_image.jpg)
-# simESI
+# simESI-fmm
 simESI-fmm (simulations of ESI with FMM) is a high performance version of the original "simESI" (https://github.com/mscordes/simESI). As with the original simESI release, simESI-fmm is a program utilizing GROMACS for simulating electrospray ionization (ESI) of proteins in ammonium acetate containing droplets to form protonated or deprotonated protein ions. simESI-fmm enables this by allowing proton transfer reactions between discrete amino acids, water, Grotthuss diffuse H₃O⁺ and OH⁻, ammonium (NH₄⁺), ammonia (NH₃), acetate (CH₃COO⁻), and acetic acid (CH₃COOH). Additional models are included to enable modelling of ambient conditions. simESI-fmm handles the simulation from end-to-end including preprocessing of inputted protein coordinate file, droplet formation & equilibration, and running of the simulation. The simulation can be readily modified in many ways from command line (see below). 
 
 ## Changes from the original simESI 

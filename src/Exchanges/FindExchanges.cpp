@@ -295,11 +295,15 @@ void pruneExchanges(
 				else throw runtime_error("Misidentified Grotthuss pair when adding to skipList?");
 			}
 			else { // Non-Grotthuss
-				if (Constants::aminoAcids.contains(rh->name) || Constants::aminoAcids.contains(ra->name))
+				if (Constants::aminoAcids.contains(rh->name) || Constants::aminoAcids.contains(ra->name)) {
 					flags.protExchanges = true;
-
-				skipList.insert(rh);
-				skipList.insert(ra);
+					if (Constants::aminoAcids.contains(rh->name)) skipList.insert(ra);
+					if (Constants::aminoAcids.contains(ra->name)) skipList.insert(rh);
+				}
+				else {
+					skipList.insert(rh);
+					skipList.insert(ra);
+				}
 			}
 		}
 	}
