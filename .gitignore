@@ -1,10 +1,6 @@
 build/
 outputFiles/
 
-coordinateFiles/*
-!coordinateFiles/
-!coordinateFiles/ubq.pdb
-
 inputFiles/*
 !inputFiles/
 !inputFiles/default.txt
