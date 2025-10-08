@@ -58,7 +58,7 @@ simESI-fmm continually saves data associated from each step in the run in the da
 * ```composition.py``` This script plots the evolution of droplet composition in addition to protein charge, and ratio of net droplet charge to the droplets Rayleigh limit. To choose the trial to plot, input the trial directory in ```simESI-fmm/outputFiles``` to ```python composition.py --dir ubq_1 --mass 8.6``` (ie. ```ubq_1``` for a default run with ubiquitin). ```--mass``` in this case is the protein mass (in kDa) which is required to compute the Rayleigh limit.
 
 <p align="center">Example output from system_info.py using ubiquitin as an example.</p>
-s
+
 <p align="center">
   <img src="/assets/sysinfo_ex_ubq.png" width="500">
 </p>
