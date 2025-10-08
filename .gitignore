@@ -2,12 +2,15 @@ build/
 outputFiles/
 
 coordinateFiles/*
+!coordinateFiles/
 !coordinateFiles/ubq.pdb
 
 inputFiles/*
+!inputFiles/
 !inputFiles/default.txt
 
 plotting/*
+!plotting/
 !plotting/movie.py
 !plotting/composition.py
 plotting/pics/
