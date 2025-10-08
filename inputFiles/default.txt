@@ -1,0 +1,29 @@
+# Default parameters for simESI-fmm
+# If running with different parameters, copy paste this file and modify to create a new input file which can then be called via -f
+
+#o 		= ubq			# OPTIONAL, Name of output dir in outputFiles/. By default will be .pdb name (ie, ubq_1, ubq_2, ...)
+pdb 		= ubq.pdb		# Coordinate file of protein to seed in droplet
+time		= 25			# Simulation time (ns)
+gmx_env 	= gmx			# Path to GMXRC executable, by default assumes 'gmx' accessible from command line
+gpu		= yes			# Use GPU acceleration
+hpc 		= no			# Enables slight modification of mdrun calls if tuning for specific resources
+fmm		= no			# Use FMM model for computing long-range electrostatics
+verbose 	= yes			# Pipe all gmx output to terminal or hide
+save 		= no 			# Save all gmx output files (.edr, .log, etc.)
+cont 		= no 			# If continuing from a previous run  
+# dir_cont	= N/A			# If continuing, dir in outputFiles to continue from
+# step_cont 	= N/A			# If continuing, step to continue from
+mode		= pos			# ESI mode to run in, positive-mode by default
+amac 		= 0.25			# Concentration of ammonium acetate to seed into droplet (M)
+mpm 		= no			# Enable mobile protons for gas-phase protein ion
+droplet_size	= 1.1			# Size of water shell to seed around protein (nm)
+# water_cutoff 	= N/A			# OPTIONAL, Number of remaining waters when to ramp from -itemp to -ftemp, usually let simESI calculate this dynamically by default
+itemp		= 370			# Initial droplet temperature (K)
+ftemp 		= 450			# Final droplet temperature (K)
+# pka_pdb 	= N/A			# OPTIONAL, Use separate pdb file for calculating residue-specific pKa values
+atm		= yes			# Simulate ambient atmosphere
+gas_temp 	= 300 			# Temperature of ambient gas (K)
+water_molp	= 0			# Mol% of ambient water if simulating atmosphere, dry atmosphere by default
+n2_molp		= 79			# Mol% of ambient N2 if simulating atmosphere
+o2_molp		= 21			# Mol% of ambient O2 if simulating atmosphere
+box_size	= 75			# Dimension of cubic box (nm)

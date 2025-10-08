@@ -1,0 +1,16 @@
+build/
+outputFiles/
+
+coordinateFiles/*
+!coordinateFiles/ubq.pdb
+
+inputFiles/*
+!inputFiles/default.txt
+
+plotting/*
+!plotting/movie.py
+!plotting/composition.py
+plotting/pics/
+
+*.exe
+*.pdb

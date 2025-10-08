@@ -1,0 +1,35 @@
+dt                      = 0.002     	
+nsteps                  = 50000   
+integrator              = md
+comm_grps               = Protein   ; Actively modified by simESI
+comm_mode               = Angular   ; Actively modified by simESI
+DispCorr                = no         
+constraint_algorithm    = lincs     
+constraints             = h-bonds   
+lincs_iter              = 1
+lincs_order             = 4
+nstenergy               = 500      
+nstlog                  = 500       
+nstvout                 = 500
+nstxout                 = 500
+nstxout_compressed      = 500      
+
+pbc                     = xyz
+cutoffscheme            = Verlet
+nstlist                 = 40
+rlist                   = 15        ; Actively modified by simESI
+rcoulomb                = 15        ; Actively modified by simESI
+rvdw                    = 15        ; Actively modified by simESI
+coulombtype             = cut-off
+vdwtype                 = cut-off
+
+gen_vel                 = yes       
+gen_seed                = -1        
+gen_temp                = 300      
+continuation            = no       
+pcoupl                  = no      
+tcoupl                  = nose-hoover 
+tc_grps                 = Protein   ; Actively modified by simESI
+ref_t                   = 370       ; Actively modified by simESI
+tau_t                   = 5         ; Actively modified by simESI
+nsttcouple              = 100       ; Actively modified by simESI 
